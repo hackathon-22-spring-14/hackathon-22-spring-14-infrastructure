@@ -17,3 +17,8 @@
 
 をする。
 
+## CI/CD
+
+1. mainブランチにPRを出す。 
+2. Github Actionsでplan結果がコメントされるので、良さそうであればマージ
+3. terraform applyされる
