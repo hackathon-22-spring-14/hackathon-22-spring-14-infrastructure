@@ -1,0 +1,52 @@
+name: Terraform Apply
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: [closed]
+    paths:
+      - "modules/**"
+      - "envs/main/**"
+
+permissions:
+  id-token: write
+  contents: read
+  actions: read
+  pull-requests: write
+
+jobs:
+  get-caller-identity:
+    name: OIDC Apply
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true
+    defaults:
+      run:
+        working-directory: envs/production
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Configure AWS credentials from test account
+        uses: aws-actions/configure-aws-credentials@v1 
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-1
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.2.1
+
+      - name: Terraform Init
+        id: init
+        run: terraform init
+
+      - name: Terraform Validate
+        id: validate
+        run: terraform validate -no-color
+
+      - name: Terraform Apply
+        id: apply
+        run: terraform apply -auto-approve
