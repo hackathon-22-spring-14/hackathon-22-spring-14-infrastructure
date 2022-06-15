@@ -9,7 +9,7 @@ provider "aws" {
 
 terraform {
   backend "s3" {
-    bucket  = "hackathon-22-spring-14"
+    bucket  = "terraform-tfstate-hackathon22-spring-14"
     region  = "ap-northeast-1"
     key     = "production.terraform.tfstate"
     encrypt = true
