@@ -29,6 +29,6 @@ resource "aws_db_instance" "rds" {
   }
 
   tags = {
-    Name    = "stamq-db"
+    Name = "stamq-db"
   }
 }
