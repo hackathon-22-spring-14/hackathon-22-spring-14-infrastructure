@@ -137,20 +137,11 @@ resource "aws_security_group_rule" "endpoint_allow_eg_any" {
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
-resource "aws_db_subnet_group" "db" {
-  name = "stamq"
-  subnet_ids = [
-    aws_subnet.private-db-1.id,
-    aws_subnet.private-db-2.id,
-    aws_subnet.private-db-3.id,
-  ]
-}
-
 resource "aws_security_group" "database" {
   vpc_id = aws_vpc.vpc.id
-  name   = "takos-vpc.database"
+  name   = "stamq-vpc.database"
   tags = {
-    "Name" = "takos-vpc.database"
+    "Name" = "stamq-vpc.database"
   }
   ingress {
     protocol    = "tcp"
